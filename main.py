@@ -1,5 +1,7 @@
 import game_constants
+import hero_data
 import phase.phase_constants as phase_constants
+from fight.battle import battle
 from phase.abilities import abilities_update
 from phase.check import phase_check
 from phase.intro import intro_phase
@@ -27,5 +29,6 @@ while continue_game:
         print(game_constants.DIVIDER)
         current_phase = phase_check(phase_constants.FIGHT)
     elif current_phase == phase_constants.FIGHT:
-        print("Si pripravený na prvý súboj?")
+        print(game_constants.DIVIDER)
+        battle(hero_data.fight_level)
         break
