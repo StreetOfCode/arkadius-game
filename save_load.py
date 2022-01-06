@@ -11,6 +11,7 @@ def load(file_name):
         name_loaded = False
         abilities_loaded = False
         abilities_loaded_count = 0
+        fight_level_loaded = False
         next_phase = ""
         next_phase_loaded = False
         available_points_loaded = False
@@ -25,6 +26,9 @@ def load(file_name):
                 abilities_loaded_count += 1
                 if abilities_loaded_count == len(hero_data.abilities):
                     abilities_loaded = True
+            elif not fight_level_loaded:
+                hero_data.fight_level = int(line.rstrip())
+                fight_level_loaded = True
             elif not next_phase_loaded:
                 next_phase = line.rstrip()
                 next_phase_loaded = True
@@ -65,7 +69,7 @@ def load_game():
         return False, ""
 
 
-def save_game(next_phase):
+def save_game(next_phase, fight_level):
     print("Pod akým názvom chceš uložiť hru? (Názov nesmie obsahovať čisla, špeciálne znaky ani medzery)")
     while True:
         save_name = input("Nazov - ")
@@ -77,6 +81,8 @@ def save_game(next_phase):
             for k, v in hero_data.abilities.items():
                 file_handler.write(str(k) + ' - ' + str(v["points"]))
                 file_handler.write("\n")
+            file_handler.write(str(fight_level))
+            file_handler.write("\n")
             file_handler.write(next_phase)
             file_handler.write("\n")
             file_handler.write(str(hero_data.available_points))
