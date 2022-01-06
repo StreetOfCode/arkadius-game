@@ -16,3 +16,21 @@ while continue_game:
         break
 
     print("Výborne, máš odvahu. To sa mi páči.")
+
+    name_picked = False
+    hero_name = ""
+    while not name_picked:
+        name = input("Ako sa bude volať tvoj hrdina?: ")
+        print("Si si istý, ze sa tvoj hrdina bude volať " + name + "?")
+        print("0 - Nie, chcem zmeniť meno\n1 - Áno")
+
+        name_choice = input("Aká je tvoja voľba?: ")
+        if name_choice not in ["0", "1"]:
+            print("Netrafil si ani jednu možnú voľbu. Musím sa ťa spýtať ešte raz.")
+            continue
+
+        if name_choice == "1":
+            hero_name = name
+            break
+
+    print("Ahoj", hero_name)
