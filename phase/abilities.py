@@ -2,11 +2,11 @@ import hero_data
 from utility import print_abilities_points, print_abilities_options
 
 
-def abilities_update():
+def abilities_update(available_points):
     print(hero_data.hero_name + ", Tvoje schopnosti sú momentálne na tom takto:")
     print_abilities_points()
     print("Máš " + str(
-        7) + " bodov, ktore si rozdeľ naprieč schopnostiam podla svojich preferencií.")
+        available_points) + " bodov, ktore si rozdeľ naprieč schopnostiam podla svojich preferencií.")
 
     abilities_picked = False
     abilities_picked_count = 0
@@ -14,7 +14,7 @@ def abilities_update():
         print_abilities_options()
         option = input(
             "Máš " + str(
-                7 - abilities_picked_count) + " možnosti na zlepšenie. Ktorú schopnosť chceš vylepšiť? ")
+                available_points - abilities_picked_count) + " možnosti na zlepšenie. Ktorú schopnosť chceš vylepšiť? ")
         if option.isnumeric() and int(option) in list(range(1, len(hero_data.abilities) + 1)):
 
             chosen_ability_name = list(hero_data.abilities.keys())[int(option) - 1]
@@ -32,7 +32,7 @@ def abilities_update():
             continue
 
         abilities_picked_count += 1
-        if abilities_picked_count == 7:
+        if abilities_picked_count == available_points:
             abilities_picked = True
 
     print(
