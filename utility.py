@@ -1,5 +1,11 @@
 import game_constants
-from hero_data import abilities
+from hero_data import abilities, hero_items
+
+
+def print_items():
+    for item in hero_items:
+        print(item["name"] + " -> " + item["description"])
+    print()
 
 
 def print_abilities_descriptions():

@@ -3,6 +3,7 @@ from os.path import isfile, join
 
 import game_constants
 import hero_data
+from item.items import get_item_by_name
 
 
 def load(file_name):
@@ -15,6 +16,7 @@ def load(file_name):
         next_phase = ""
         next_phase_loaded = False
         available_points_loaded = False
+        hero_items_loaded = False
 
         for line in f:
             if not name_loaded:
@@ -35,6 +37,9 @@ def load(file_name):
             elif not available_points_loaded:
                 hero_data.available_points = int(line.rstrip())
                 available_points_loaded = True
+            elif not hero_items_loaded:
+                item_name = line.rstrip()
+                hero_data.hero_items.append(get_item_by_name(item_name))
 
         print()
         return True, next_phase
@@ -87,6 +92,9 @@ def save_game(next_phase, fight_level):
             file_handler.write("\n")
             file_handler.write(str(hero_data.available_points))
             file_handler.write("\n")
+            for item in hero_data.hero_items:
+                file_handler.write(item["name"])
+                file_handler.write("\n")
             file_handler.close()
             print("Úspešne som uložil hru")
             print()

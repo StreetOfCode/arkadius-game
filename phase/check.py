@@ -6,7 +6,7 @@ import hero_data
 import phase.phase_constants as phase_constants
 from hero_update import hero_update
 from save_load import save_game
-from utility import print_abilities_points
+from utility import print_abilities_points, print_items
 
 
 def end_game_choice():
@@ -30,6 +30,11 @@ def hero_check():
     print()
     print(hero_data.hero_name + ", Tvoje schopnosti sú momentálne na tom takto:")
     print_abilities_points()
+    if len(hero_data.hero_items) > 0:
+        print("Máš nasledujúce predmety (body sú už započítané v schopnostiach):")
+        print_items()
+    else:
+        print("Nemáš žiadne predmety")
 
     print("Máš " + str(hero_data.available_points) + " bodov na pridelenie schopností.")
     print()
@@ -51,8 +56,15 @@ def hero_check():
 
 
 def phase_check(next_phase):
+    if next_phase == phase_constants.FIGHT:
+        continue_text = "Súboj - Level " + str(hero_data.fight_level)
+        if hero_data.fight_level == game_constants.BOSS_FIGHT_LEVEL:
+            continue_text = "Posledný " + continue_text
+    else:
+        continue_text = next_phase
+
     while True:
-        print("0 - Pokračovať na", next_phase)
+        print("0 - Pokračovať na", continue_text)
         print("1 - Upraviť hrdinu")
         print("2 - Uložiť hru")
         print("3 - Ukončiť hru")
@@ -66,7 +78,7 @@ def phase_check(next_phase):
         elif choice == "1":
             hero_check()
         elif choice == "2":
-            save_game(next_phase)
+            save_game(next_phase, hero_data.fight_level)
         elif choice == "3":
             if end_game_choice():
                 return phase_constants.END

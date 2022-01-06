@@ -2,6 +2,7 @@ import game_constants
 import hero_data
 import phase.phase_constants as phase_constants
 from fight.battle import battle
+from item.items import item_check, loose_items_after_lost_battle
 from phase.abilities import abilities_update
 from phase.check import phase_check, battle_check
 from phase.intro import intro_phase
@@ -41,14 +42,19 @@ while continue_game:
                 hero_data.abilities["Život"]["points"]))
             print("Po pridávaní bodov a voľby predmetu si budeš môcť doplniť život.")
 
+            item_check(hero_data.fight_level)
+
             print(game_constants.DIVIDER)
             print("Po tvojej " + str(hero_data.fight_level) + ". výhre, ti pridávam " + str(
                 hero_data.fight_level) + " body, ktoré môžeš využiť na upravenie tvojho hrdinu.")
             abilities_update(hero_data.fight_level)
 
             hero_data.fight_level += 1
+            if hero_data.fight_level == game_constants.BOSS_FIGHT_LEVEL:
+                print("Tvoj ďalší súper bude tvoj posledný a zároveň najsilnejší")
             print(game_constants.DIVIDER)
         else:
+            loose_items_after_lost_battle()
             print("Potrebuješ si oddýchnuť a možno aj prehodnotiť svoje schopnosti, máš 0 života")
             print(game_constants.DIVIDER)
 
