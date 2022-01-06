@@ -3,6 +3,8 @@ from utility import print_abilities_points, print_abilities_options
 
 
 def abilities_update(available_points):
+    hero_data.available_points += available_points
+
     print(hero_data.hero_name + ", Tvoje schopnosti sú momentálne na tom takto:")
     print_abilities_points()
     print("Máš " + str(
@@ -25,6 +27,7 @@ def abilities_update(available_points):
             else:
                 chosen_ability["points"] += 1
 
+            hero_data.available_points -= 1
             print("Teraz tvoje body vyzerajú takto: ")
             print_abilities_points()
         else:

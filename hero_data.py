@@ -1,5 +1,7 @@
 hero_name = ""
 
+available_points = 0
+
 abilities = {
     "Útočná sila": {
         "points": 1,

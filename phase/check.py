@@ -1,4 +1,7 @@
+import hero_data
 import phase.phase_constants as phase_constants
+from hero_update import hero_update
+from utility import print_abilities_points
 
 
 def end_game_choice():
@@ -18,6 +21,30 @@ def end_game_choice():
             return True
 
 
+def hero_check():
+    print()
+    print(hero_data.hero_name + ", Tvoje schopnosti sú momentálne na tom takto:")
+    print_abilities_points()
+
+    print("Máš " + str(hero_data.available_points) + " bodov na pridelenie schopností.")
+    print()
+
+    while True:
+        print("0 - Späť")
+        print("1 - Upraviť schopnosti hrdiny")
+
+        choice = input("Čo chceš robiť? ")
+        if choice not in ["0", "1"]:
+            print("Netrafil si ani jednu možnú voľbu. Musím sa ťa spýtať ešte raz.")
+            continue
+
+        if choice == "0":
+            print()
+            break
+        elif choice == "1":
+            hero_update()
+
+
 def phase_check(next_phase):
     while True:
         print("0 - Pokračovať na", next_phase)
@@ -32,8 +59,7 @@ def phase_check(next_phase):
         if choice == "0":
             return next_phase
         elif choice == "1":
-            # TODO hero check
-            continue
+            hero_check()
         elif choice == "2":
             # TODO save game
             continue
