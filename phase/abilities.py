@@ -1,5 +1,5 @@
 import hero_data
-from utility import print_abilities_points, print_abilities_options
+from utility import print_abilities_points, print_abilities_options, print_abilities_descriptions
 
 
 def abilities_update(available_points):
@@ -13,11 +13,14 @@ def abilities_update(available_points):
     abilities_picked = False
     abilities_picked_count = 0
     while not abilities_picked:
-        print_abilities_options()
+        print_abilities_options(with_help_option=True)
         option = input(
             "Máš " + str(
                 available_points - abilities_picked_count) + " možnosti na zlepšenie. Ktorú schopnosť chceš vylepšiť? ")
-        if option.isnumeric() and int(option) in list(range(1, len(hero_data.abilities) + 1)):
+        if option.isnumeric() and int(option) in list(range(0, len(hero_data.abilities) + 1)):
+            if option == "0":
+                print_abilities_descriptions()
+                continue
 
             chosen_ability_name = list(hero_data.abilities.keys())[int(option) - 1]
             chosen_ability = hero_data.abilities[chosen_ability_name]
