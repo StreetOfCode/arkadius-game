@@ -1,3 +1,4 @@
+import random
 import time
 
 import game_constants
@@ -33,6 +34,10 @@ def print_enemy_stats(enemy):
     print("Život - ", str(enemy["health"]))
 
 
+def is_critical_hit(chance):
+    return random.randint(0, 100) < chance
+
+
 def simulate_battle(hero, enemy):
     print_hero_stats(hero)
     print()
@@ -42,6 +47,62 @@ def simulate_battle(hero, enemy):
 
     print(game_constants.DIVIDER)
     print("\nZAČÍNAME SÚBOJ. AKO PRVÝ ÚTOČIŠ TY.\n")
+
+    hero_turn = True
+    while True:
+        if hero_turn:
+            min_attack, max_attack = hero["attack"]
+            attack = random.randint(min_attack, max_attack)
+            if is_critical_hit(hero["critical_hit"]):
+                attack *= 3
+                print("ÚTOČIŠ KRITICKÝM ÚTOKOM")
+
+            min_defence, max_defence = enemy["defence"]
+            defence = random.randint(min_defence, max_defence)
+            final_attack = max((attack - defence), 0)
+
+            if final_attack > 0:
+                print("Zaútočil si útočnou silou - ", final_attack)
+                enemy["health"] -= final_attack
+
+                if enemy["health"] > 0:
+                    print(enemy["name"] + " po tvojom útoku stále žije. Súperov zvyšok života - ", enemy["health"])
+                else:
+                    time.sleep(1)
+                    print("ZVÍŤAZIL SI!\n")
+                    print(game_constants.DIVIDER)
+                    return True, hero["health"]
+            else:
+                print("Netrafil si...")
+
+        else:
+            min_attack, max_attack = enemy["attack"]
+            attack = random.randint(min_attack, max_attack)
+            if is_critical_hit(enemy["critical_hit"]):
+                attack *= 3
+                print("SÚPER ÚTOČÍ KRITICKÝM ÚTOKOM")
+
+            min_defence, max_defence = hero["defence"]
+            defence = random.randint(min_defence, max_defence)
+            final_attack = max((attack - defence), 0)
+
+            if final_attack > 0:
+                hero["health"] -= final_attack
+                print("Súper zaútočil útočnou silou - ", final_attack)
+
+                if hero["health"] > 0:
+                    print("Stále žiješ, zostáva ti " + str(hero["health"]) + " Života")
+                else:
+                    time.sleep(1)
+                    print("PREHRAL SI\n")
+                    print(game_constants.DIVIDER)
+                    return False, 0
+            else:
+                print("Súperov útok ťa netrafil.")
+
+        print()
+        hero_turn = not hero_turn
+        time.sleep(1)
 
 
 def battle(fight_level):

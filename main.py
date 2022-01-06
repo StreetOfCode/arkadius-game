@@ -30,5 +30,20 @@ while continue_game:
         current_phase = phase_check(phase_constants.FIGHT)
     elif current_phase == phase_constants.FIGHT:
         print(game_constants.DIVIDER)
-        battle(hero_data.fight_level)
-        break
+        win, health_remaining = battle(hero_data.fight_level)
+        if win:
+            print("Po vitaznej bitke ti ostal život " + str(health_remaining) + "/" + str(
+                hero_data.abilities["Život"]["points"]))
+
+            print(game_constants.DIVIDER)
+            print("Po tvojej " + str(hero_data.fight_level) + ". výhre, ti pridávam " + str(
+                hero_data.fight_level) + " body, ktoré môžeš využiť na upravenie tvojho hrdinu.")
+            abilities_update(hero_data.fight_level)
+
+            hero_data.fight_level += 1
+            print(game_constants.DIVIDER)
+        else:
+            print("Potrebuješ si oddýchnuť a možno aj prehodnotiť svoje schopnosti, máš 0 života")
+            print(game_constants.DIVIDER)
+
+        hero_data.abilities["Život"]["points"] = health_remaining
