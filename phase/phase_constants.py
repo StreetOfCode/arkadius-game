@@ -1,3 +1,4 @@
+START = "START"
 INTRO = "INTRO"
 END = "END"
 NAME = "NAME"

@@ -4,13 +4,15 @@ from phase.abilities import abilities_update
 from phase.check import phase_check
 from phase.intro import intro_phase
 from phase.name import name_phase
+from phase.start import start_game
 
-current_phase = phase_constants.INTRO
+current_phase = phase_constants.START
 
 continue_game = True
 while continue_game:
-
-    if current_phase == phase_constants.INTRO:
+    if current_phase == phase_constants.START:
+        current_phase = start_game()
+    elif current_phase == phase_constants.INTRO:
         current_phase = intro_phase()
     elif current_phase == phase_constants.END:
         print(game_constants.DIVIDER)
